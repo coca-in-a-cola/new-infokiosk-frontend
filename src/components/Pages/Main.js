@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Header } from '../Header';
 import background from '../../assets/img/background.jpg'
 import { FlatMenu } from '../FlatMenu';
+import { Modals } from '../Modals/Modals';
 
 export const Main = ({location, navigate}) => {
     return (
@@ -26,6 +27,8 @@ export const Main = ({location, navigate}) => {
                 <FlatMenu path={location} navigate={navigate}/>
             </div>
         }
+        
+        <Modals/>
         </>
     )
 }

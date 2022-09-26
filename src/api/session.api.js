@@ -9,7 +9,7 @@ export const refreshSession = (session) => {
 }
 
 
-export const sendCardCode = ({cardCode}) => {
+export const sendCardCode = (cardCode) => {
     return wrapFetch(
         fetch(API_URI + "/api/session", {
         method: 'POST',
@@ -20,15 +20,18 @@ export const sendCardCode = ({cardCode}) => {
       }))
 }
 
-export const sendConfirmNumber = ({confirmNumber}) => {
-    return new Promise(function(resolve, reject) {
-        setTimeout(() => {
-            reject("NOT IMPLEMENTED");
-        }, Math.random() * 1000 + 250)
-    });
+export const sendConfirmNumber = (authToken, confirmNumber) => {
+    return wrapFetch(
+        fetch(API_URI + "/api/session/confirmNumber", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({authToken: authToken, confirmNumber: confirmNumber})
+      }))
 }
 
-export const requestService = (session, uuid, data = {}) => {
+export const requestService = (authToken, uuid, data = {}) => {
     // uuid - id запрашиваемой услуги
     return new Promise(function(resolve, reject) {
         fetch(`/api/forms/send/${uuid}`, {
@@ -36,7 +39,7 @@ export const requestService = (session, uuid, data = {}) => {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({authToken: session.authToken, ...data})
+            body: JSON.stringify({authToken: authToken, ...data})
           })
         .then((response) => {
             if (response.ok) {

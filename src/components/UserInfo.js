@@ -1,5 +1,5 @@
 import { Button } from "./UI/Button"
-import { selectUserName, logout } from "../features/sessionSlice"
+import { selectUserName, logout, startLogin } from "../features/sessionSlice"
 import { useSelector, useDispatch } from "react-redux"
 
 /* 
@@ -11,7 +11,7 @@ export const UserInfo = ({short}) => {
     const dispatch = useDispatch();
 
     if (!userName)
-        return <Button onClick={() => {}}>
+        return <Button onClick={() => dispatch(startLogin())}>
         ВОЙТИ КАК СОТРУДНИК
         </Button>
     
