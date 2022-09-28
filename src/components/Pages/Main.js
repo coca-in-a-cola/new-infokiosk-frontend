@@ -5,7 +5,7 @@ import background from '../../assets/img/background.jpg'
 import { FlatMenu } from '../FlatMenu';
 import { Modals } from '../Modals/Modals';
 
-export const Main = ({location, navigate}) => {
+export const Main = ({location, navigate, form_uuid}) => {
     return (
         <>
         <div className="fixed top-0 left-0 right-0 bottom-0 select-none -z-10">
@@ -28,7 +28,7 @@ export const Main = ({location, navigate}) => {
             </div>
         }
         
-        <Modals/>
+        <Modals form_uuid={form_uuid} navigate={navigate} />
         </>
     )
 }

@@ -5,11 +5,12 @@ import '../../assets/css/react-simple-keyboard-custom.css'
 import {Button} from '../UI/Button'
 import PropTypes from 'prop-types'
 
-export const ConfirmNumber = ({maxLength = 5, timeout = 99, onSubmit, onCancel, onRetry}) => {
+export const ConfirmNumber = ({displayPhoneNumber = "+70000000000", maxLength = 5, timeout = 99, onSubmit, onCancel, onRetry}) => {
     const [input, setInput] = useState("");
     const keyboard = useRef();
 
-    const format = (value, pattern) => {
+    const format = (value) => {
+        const pattern = value[0] == "+" ? "## (###) ### ##-##" : "# (###) ### ##-##"
         var i = 0,
             v = value.toString();
         return pattern.replace(/#/g, _ => v[i++]);
@@ -55,7 +56,7 @@ export const ConfirmNumber = ({maxLength = 5, timeout = 99, onSubmit, onCancel, 
                 Введите код подтверждения
             </h1>
             <p className="text-2xl pt-2 max-w-4xl mx-auto text-gray-500">
-                Мы выслали на номер {format('+70000000000', '## (###) ### ##-## ')} код подтверждения
+                Мы выслали на номер {format(displayPhoneNumber)} код подтверждения
                 <br/>
                 Введите его в поле ниже, чтобы войти
             </p>
@@ -136,4 +137,8 @@ ConfirmNumber.propTypes = {
      *  Действие при отмене ввода пользователем
      */
     onCancel: PropTypes.func,
+}
+
+ConfirmNumber.defaultProps = {
+
 }

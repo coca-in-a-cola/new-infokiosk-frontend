@@ -16,7 +16,7 @@ export const wrapFetch = (fetch) => {
                 if (contentType && contentType.indexOf("application/json") !== -1) {
                     response.json()
                     .then((result) => {
-                        resolve(result)
+                        response.ok ? resolve(result) : reject(result)
                     })
                     .catch((errMes) => {
                         reject(errMes)

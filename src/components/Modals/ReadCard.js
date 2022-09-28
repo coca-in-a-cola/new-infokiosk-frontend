@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import { CloseButton } from '../UI/CloseButton';
-import { Modal } from './Modal';
 
 
 export class ReadCard extends React.Component {
@@ -45,8 +44,7 @@ export class ReadCard extends React.Component {
     
     render() {
         return (
-            <Modal>
-            <div className="w-full h-full flex justify-center items-center">
+            <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center">
             <form className="max-w-lg pt-4 pb-8 px-8 bg-gray-800 shadow-xl rounded-lg text-center relative">
                 <div className="mt-4 w-20 h-20 mx-auto relative items-center justify-center flex">
                 {
@@ -84,7 +82,6 @@ export class ReadCard extends React.Component {
                 </div>
             </form>
             </div>
-            </Modal>
         );
     }
 }

@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { result } from "lodash";
 import { sendCardCode, sendConfirmNumber } from "../api/session.api";
+import { get as getFormData, send as sendFormData } from "../api/forms.api"
+
 
 export const Stage = {
     UNAUTHORIZED: 0,
@@ -15,6 +17,8 @@ const initialState = {
     error: null,
     stage: Stage.UNAUTHORIZED,
     showModal: false,
+    formData: null,
+    success: null
 }
 
 const inputCardCode = createAsyncThunk(
@@ -60,13 +64,29 @@ export const sessionSlice = createSlice({
             state.session = action.payload
             state.stage = Stage.CONFIRM_NUMBER
             state.loading = false
+            state.error = false
+            state.success = false
         },
 
         setConfirmNumber: (state, action) => {
             state.session = action.payload
             state.stage = Stage.SUCCESS
             state.loading = false
-            state.showModal = false
+            state.error = false
+            state.success = false
+        },
+
+        setFormData: (state, action) => {
+            state.formData = action.payload
+            state.showModal = true
+            state.loading = false
+            state.error = false
+            state.success = false
+        },
+
+        setSuccess: (state, action) => {
+            state.success = action.payload
+            state.loading = false
         },
 
         logout: (state) => {
@@ -74,7 +94,7 @@ export const sessionSlice = createSlice({
         // doesn't actually mutate the state because it uses the immer library,
         // which detects changes to a "draft state" and produces a brand new
         // immutable state based off those changes
-        state = initialState
+            Object.assign(state, initialState)
         }
     },
     
@@ -96,7 +116,7 @@ export const sessionSlice = createSlice({
 })
 
 export const { logout, setLoading, setError, showModal, hideModal,
-    startLogin, setCardCode, setConfirmNumber } = sessionSlice.actions
+    startLogin, setCardCode, setConfirmNumber, setFormData, setReport, setSuccess } = sessionSlice.actions
 
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -107,7 +127,7 @@ export const submitCardCode = (ssid) => (dispatch) => {
     dispatch(setLoading(true))
     
     sendCardCode(ssid).then(result => {
-        dispatch(setCardCode(result))
+        dispatch(setCardCode({ssid: ssid, ...result}))
     })
     .catch(error => {
         dispatch(setError(error))
@@ -126,14 +146,43 @@ export const sumbitConfirmNumber = (confirmNumber) => (dispatch, getState) => {
     })
 }
 
+export const submitFormData = (data) => (dispatch, getState) => {
+    
+    dispatch(setLoading(true))
+    const authToken = selectAuthToken(getState())
+    const uuid = selectPreviousFormUuid(getState())
+
+    sendFormData(uuid, authToken, data).then(result => {
+        dispatch(setSuccess(result))
+    })
+    .catch(error => {
+        dispatch(setError(error))
+    })
+}
+
+export const fetchFormData = (uuid) => (dispatch, getState) => {
+    dispatch(setLoading(true))
+
+    getFormData(uuid).then(result => {
+        dispatch(setFormData(result))
+    })
+    .catch(error => {
+        dispatch(setError(error))
+    })
+}
 
 
-export const selectUserName = (state) => state.session?.user?.fullname
-export const selectUserPhoneNumber = (state) => state.session?.user?.phoneNumber
-export const selectAuthToken = (state) => state.session?.authToken;
-export const selectStage = (state) => state.stage
-export const selectLoading = (state) => state.loading
-export const selectError = (state) => state.error
-export const selectShowModal = (state) => state.showModal
+export const selectUserName = (state) => state.session.session?.fullname
+export const selectUserPhoneNumber = (state) => state.session.session?.phoneNumber
+export const selectAuthToken = (state) => state.session.session?.authToken;
+export const selectStage = (state) => state.session.stage
+export const selectLoading = (state) => state.session.loading
+export const selectError = (state) => state.session.error
+export const selectShowModal = (state) => state.session.showModal
+export const selectPreviousCardCode = (state) => state.session.session?.ssid
+
+export const selectFormData = (state) => state.session.formData
+export const selectPreviousFormUuid = (state) => state.session.formData?.uuid
+export const selectSuccess = (state) => state.session.success
 
 export default sessionSlice.reducer
