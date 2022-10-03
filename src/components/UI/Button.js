@@ -98,7 +98,7 @@ export class Button extends React.Component {
         return (
         <button 
             disabled={this.props.disabled}
-            className={`flex justify-items-stretch font-semibold shadow-md bg-red ${size.height} ${size.text} text-white ${this.props.className} disabled:opacity-75`}
+            className={`flex bg-red justify-items-stretch font-semibold shadow-md ${size.height} ${size.text} text-white ${this.props.className}  disabled:opacity-75`}
             onClick={this.props.onClick}
             ref={node => (this.btn = node)}>
             <div className={`w-full h-full shrink flex items-center justify-self-center justify-center text-center ${size.padding} `}>

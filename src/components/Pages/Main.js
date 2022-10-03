@@ -18,16 +18,15 @@ export const Main = ({location, navigate, form_uuid}) => {
             <Header/>
         </div>
 
+        <div className="relative">
         {
-            location == "" || location == "/"
-            ? <div className="absolute bottom-0 left-0 right-0">
+            <div 
+            className={`absolute top-12 left-0 right-0 translate-y-0 transition-all duration-200 transform-gpu
+            ${location == "" || location == "/" ? "translate-y-1/2" : " "}`}>
                 <FlatMenu path={location} navigate={navigate} />
             </div>
-            : <div className="mt-12">
-                <FlatMenu path={location} navigate={navigate}/>
-            </div>
         }
-        
+        </div>
         <Modals form_uuid={form_uuid} navigate={navigate} />
         </>
     )

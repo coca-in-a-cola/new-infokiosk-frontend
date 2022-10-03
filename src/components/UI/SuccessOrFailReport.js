@@ -1,12 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types'
+import { Button } from './Button';
+
+import { selectUserName, logout, hideModal } from "../../features/sessionSlice"
+import { useSelector, useDispatch } from "react-redux"
 
 const newlineText = (text) =>
     <>{text.split('\n').map(line => <>{line} <br/></>)}</>
 
-export const SuccessOrFailReport = ({fail, label, text}) => 
+export const SuccessOrFailReport = ({fail, large, label, text, }) => {
+    const userName = useSelector(selectUserName)
+    const dispatch = useDispatch();
+
+    return ( <div
+        className={ large
+            ? "absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center"
+            : ""}>
+    <div className="w-full">
     <div className={`flex items-center gap-4 my-4
-    ${fail ? 'bg-red' : 'bg-blue-darker'} p-4 rounded-md max-w-5xl mx-auto`}>
+    ${fail ? 'bg-red' : 'bg-blue-darker'} p-4 rounded-md w-full max-w-5xl mx-auto`}>
     <div className="w-max">
         <div className="h-24 w-28 flex text-white border-r-4 border-white">
             {
@@ -28,11 +40,30 @@ export const SuccessOrFailReport = ({fail, label, text}) =>
     </div>
     </div>
 
+    {   
+        large ?
+        <div className="flex justify-between w-full max-w-5xl mx-auto">
+            <Button className="w-80" onClick={() => dispatch(logout())} timeout={30}>ВЫХОД</Button>
+            <Button className="w-80 bg-blue-darker" onClick={() => dispatch(hideModal())}>
+                ПРОДОЛЖИТЬ КАК {userName?.split(' ')?.[1].toUpperCase()}
+            </Button>
+        </div>
+        : undefined
+    }
+    </div>
+    </div>)
+}
+
 SuccessOrFailReport.propTypes = {
     /**
      * Выводим ли мы сообщение об ошибке?
      */
     fail: PropTypes.bool,
+
+    /**
+     * Выводим ли мы отчёт на весь экран с кнопками?
+     */
+    large: PropTypes.bool,
 
     /** 
      * Текст сообщения
@@ -47,4 +78,5 @@ SuccessOrFailReport.propTypes = {
 
 SuccessOrFailReport.defaultProps = {
     fail: false,
+    large: false,
 }

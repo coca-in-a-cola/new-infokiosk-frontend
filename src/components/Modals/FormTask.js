@@ -67,8 +67,8 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
     }    
 
     return (
-        <div className="absolute top-0 left-0 right-0 bottom-0">
-        <div class={"max-w-screen-2xl mx-auto bg-white "
+        <div className="absolute top-0 left-0 right-0 bottom-0 bg-white">
+        <div class={"max-w-screen-2xl mx-auto "
         + "before:block before:-z-10 before:absolute before:left-0 before:top-14 before:w-60 before:h-24 before:bg-blue-darker "
         + "after:block after:-z-10 after:absolute after:right-0 after:top-14 after:w-28 after:h-24 after:bg-blue-darker"}>
         
@@ -77,7 +77,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
             <h2 className="text-5xl pt-12 pb-4 mx-auto text-blue-darker font-black">
                 {title}
             </h2>
-            <div className="my-4">
+            <div className="my-4 -ml-8">
                 <UserInfo short/>
             </div>
             {

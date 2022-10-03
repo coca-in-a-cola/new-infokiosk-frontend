@@ -27,7 +27,7 @@ import { Link } from 'react-router-dom';
     onClick={link ? undefined : onClick}>
         <div className="text-center">
             <div className=" flex justify-center items-center p-4">
-                <svg className="h-28 w-auto"xmlns="http://www.w3.org/2000/svg" fill={color} enable-background="new 0 0 24 24" viewBox="0 0 24 24"><g><rect/></g><g><g><polygon points="15.5,5 11,5 16,12 11,19 15.5,19 20.5,12"/><polygon points="8.5,5 4,5 9,12 4,19 8.5,19 13.5,12"/></g></g></svg>
+                <svg className="h-28 w-auto"xmlns="http://www.w3.org/2000/svg" fill={color ? color : "#fff"} enable-background="new 0 0 24 24" viewBox="0 0 24 24"><g><rect/></g><g><g><polygon points="15.5,5 11,5 16,12 11,19 15.5,19 20.5,12"/><polygon points="8.5,5 4,5 9,12 4,19 8.5,19 13.5,12"/></g></g></svg>
             </div>
         </div>
     </ParentTagName>

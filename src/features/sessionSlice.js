@@ -18,7 +18,8 @@ const initialState = {
     stage: Stage.UNAUTHORIZED,
     showModal: false,
     formData: null,
-    success: null
+    success: null,
+    reportLarge: false,
 }
 
 const inputCardCode = createAsyncThunk(
@@ -52,6 +53,9 @@ export const sessionSlice = createSlice({
         },
 
         hideModal: (state) => {
+            state.reportLarge = false
+            state.success = null
+            state.error = null
             state.showModal = false
         },
 
@@ -82,11 +86,16 @@ export const sessionSlice = createSlice({
             state.loading = false
             state.error = false
             state.success = false
+            state.reportLarge = true
         },
 
         setSuccess: (state, action) => {
             state.success = action.payload
             state.loading = false
+        },
+
+        setReportLarge: (state, action) => {
+            state.reportLarge = action.payload
         },
 
         logout: (state) => {
@@ -116,7 +125,8 @@ export const sessionSlice = createSlice({
 })
 
 export const { logout, setLoading, setError, showModal, hideModal,
-    startLogin, setCardCode, setConfirmNumber, setFormData, setReport, setSuccess } = sessionSlice.actions
+    startLogin, setCardCode, setConfirmNumber, setFormData, setReportLarge,
+    setSuccess } = sessionSlice.actions
 
 
 // The function below is called a thunk and allows us to perform async logic. It
@@ -153,9 +163,11 @@ export const submitFormData = (data) => (dispatch, getState) => {
     const uuid = selectPreviousFormUuid(getState())
 
     sendFormData(uuid, authToken, data).then(result => {
+        dispatch(setReportLarge(true))
         dispatch(setSuccess(result))
     })
     .catch(error => {
+        dispatch(setReportLarge(true))
         dispatch(setError(error))
     })
 }
@@ -184,5 +196,6 @@ export const selectPreviousCardCode = (state) => state.session.session?.ssid
 export const selectFormData = (state) => state.session.formData
 export const selectPreviousFormUuid = (state) => state.session.formData?.uuid
 export const selectSuccess = (state) => state.session.success
+export const selectReportLarge = (state) => state.session.reportLarge
 
 export default sessionSlice.reducer
