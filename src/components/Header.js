@@ -6,18 +6,18 @@ import qr from '../assets/img/qrcod_dU7.png'
 
 import { UserInfo } from './UserInfo'
 
-export const Header = ({ }) => {
+export const Header = ({ navigate }) => {
     return (
     <header className='mt-4 container w-full max-w-screen-2xl mx-auto grid grid-cols-3 gap-4 justify-between'>
         <div className="col-span-1">
         { /* Логотип RMRail инфокиоск */ }
-        <div className = "h-30 max-w-xl">
+        <button className = "h-30 max-w-xl" onClick={() => navigate('/')}>
             <div className = "flex justify-center items-center">
                 <div className=''>
                 <img src={logo} alt='логотип'/>
                 </div>
             </div>
-        </div>
+        </button>
         </div>
 
         <div className="col-span-1 ">

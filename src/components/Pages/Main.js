@@ -15,7 +15,7 @@ export const Main = ({location, navigate, form_uuid}) => {
         </div>
 
         <div className="select-none">
-            <Header/>
+            <Header navigate={navigate} />
         </div>
 
         <div className="relative">

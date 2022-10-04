@@ -27,7 +27,7 @@ export class FlatMenu extends React.Component {
             if (Object.keys(result).length > 0)
                 this.setState(({loading: false, ...result}))
             else
-                this.setState({loading: false, error: Error("Меню не найдено")})
+                this.setState({loading: false, error: "Меню не найдено"})
         }))
         .catch((error => {
             this.setState({loading: false, error: error})
@@ -42,7 +42,7 @@ export class FlatMenu extends React.Component {
             </Modal>
             : this.state.error
             ? <Modal center>
-                <SuccessOrFailReport fail label={this.state.error.message} />
+                <SuccessOrFailReport fail label={this.state.error} />
             </Modal>
             : <div className="relative flex flex-wrap shrink py-4 mx-auto w-full items-center justify-center max-w-screen-2xl">
             {

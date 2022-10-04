@@ -64,12 +64,12 @@ export const Modals = ({form_uuid, navigate}) => {
                     onCancel={() => {dispatch(logout()); navigate("/")}}
                     onRetry={() => dispatch(submitCardCode(previousCardCode))}/>
                 case Stage.SUCCESS:
-                    if (form_uuid !== previousFormUuid) {
+                    if (form_uuid !== previousFormUuid && !(error || success)) {
                         dispatch(setLoading(true))
                         dispatch(fetchFormData(form_uuid))
                     }
 
-                    return <FormTask
+                    return error ? null : <FormTask
                     onSubmit={(data) => {dispatch(submitFormData(data)); navigate('/')}}
                     onCancel={() => navigate("/")}
                     {...formData}
