@@ -1,6 +1,6 @@
 {
   "name": "new-infokiosk-frontend",
-  "homepage": "/",
+  "homepage": "/spa",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

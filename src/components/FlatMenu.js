@@ -25,7 +25,7 @@ export class FlatMenu extends React.Component {
         get(this.props.path).then((result => {
             console.log(result)
             if (Object.keys(result).length > 0)
-                this.setState(({loading: false, ...result}))
+                this.setState(({loading: false, error: false, ...result}))
             else
                 this.setState({loading: false, error: "Меню не найдено"})
         }))
@@ -44,7 +44,7 @@ export class FlatMenu extends React.Component {
             ? <Modal center>
                 <SuccessOrFailReport fail label={this.state.error} />
             </Modal>
-            : <div className="relative flex flex-wrap shrink py-4 mx-auto w-full items-center justify-center max-w-screen-2xl">
+            : <div className="relative flex flex-wrap-reverse shrink py-4 mx-auto w-full items-center justify-start max-w-screen-2xl">
             {
             this.state.buttons.map((button, index) => 
                 <div className="basis-1/3 border-transparent border-8">

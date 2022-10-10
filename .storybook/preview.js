@@ -6,6 +6,7 @@ import { addDecorator } from "@storybook/react";
 import { MemoryRouter } from "react-router-dom";
 import { store } from '../src/app/store';
 import { Provider } from 'react-redux';
+import { TimerHandler } from '../src/components/TimerHandler';
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -17,6 +18,6 @@ export const parameters = {
   },
 }
 
-
+addDecorator(story => <TimerHandler>{story()}</TimerHandler>);
 addDecorator(story => <Provider store={store}>{story()}</Provider>);
 addDecorator(story => <MemoryRouter initialEntries={['/']}>{story()}</MemoryRouter>);

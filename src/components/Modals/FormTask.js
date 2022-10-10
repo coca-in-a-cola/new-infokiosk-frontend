@@ -141,7 +141,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
             <div className="max-w-screen-2xl mx-auto ">
                 <div className="px-8 py-4 flex justify-between items-end">
                     <div className="w-full max-w-screen-sm">
-                        <Button className="w-40 my-4" onClick={onCancel}>ОТМЕНА</Button>
+                        <Button className="w-80 my-4 bg-red" timeout={80} onClick={onCancel}>ОТМЕНА</Button>
                     </div>
                     <div className="grow px-8">
                         <FlatButton 

@@ -78,7 +78,7 @@ export const ConfirmNumber = ({displayPhoneNumber = "+70000000000", maxLength = 
         </div>
 
         <div className="flex justify-between w-full max-w-5xl mx-auto">
-            <Button className="w-80" onClick={onCancel} timeout={timeout}>ВЫХОД</Button>
+            <Button className="w-80 bg-red" onClick={onCancel} timeout={timeout}>ВЫХОД</Button>
             <Button className="w-80 bg-blue-darker" onClick={onRetry}>ЗАПРОСИТЬ КОД ЕЩЁ РАЗ</Button>
         </div>
         

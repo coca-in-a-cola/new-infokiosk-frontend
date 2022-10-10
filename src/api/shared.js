@@ -1,10 +1,10 @@
 export const API_URI = process.env.NODE_ENV !== 'production' ? "http://localhost:5000" : ""
-export const API_TIMEOUT_MS = 5000;
+export const API_TIMEOUT_MS = 30000;
 
 export const wrapFetch = (fetch) => {
     return new Promise(function(resolve, reject) {
         const timeout = setTimeout(() => {
-            reject(new Error('Превышено время ожидания ответа сервера'))
+            reject('Превышено время ожидания ответа сервера')
         }, API_TIMEOUT_MS)
         
         fetch

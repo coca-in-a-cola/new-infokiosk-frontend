@@ -1,5 +1,4 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { result } from "lodash";
+import { createSlice } from "@reduxjs/toolkit";
 import { sendCardCode, sendConfirmNumber } from "../api/session.api";
 import { get as getFormData, send as sendFormData } from "../api/forms.api"
 
@@ -21,19 +20,6 @@ const initialState = {
     success: null,
     reportLarge: false,
 }
-
-const inputCardCode = createAsyncThunk(
-'users/inputCardCodeStatus',
-    async (cardCode, { rejectWithValue }) => {
-        try {
-            const response = await sendCardCode(cardCode)
-            return response
-        }
-        catch (error) {
-            return rejectWithValue(error)
-        }
-    }
-)
 
 export const sessionSlice = createSlice({
     name: 'session',

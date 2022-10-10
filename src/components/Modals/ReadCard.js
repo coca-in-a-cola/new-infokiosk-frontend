@@ -66,7 +66,7 @@ export class ReadCard extends React.Component {
 
                 <div>
                     <h2 class="text-white text-4xl font-semibold">
-                        Приложите карту сотрудника
+                        Приложите пропуск сотрудника
                     </h2>
                 </div>
                 

@@ -1,5 +1,8 @@
 import React from 'react';
+import { useEffect, useState, useRef } from "react";
 import PropTypes from 'prop-types'
+import { selectTimer, setTimer, _unsetTimer } from '../../features/timerSlice';
+import { useSelector, useDispatch } from "react-redux"
 
 const sizes = {
     'small': {
@@ -19,101 +22,87 @@ const sizes = {
 }
 
 
-export class Button extends React.Component {
+export const Button = ({children, onClick, disabled, timeout, size, className}) => {
     
-    static propTypes = {
-        /**
-         *  Действие при нажатии кнопки либо по истечении времени
-         */
-        onClick: PropTypes.func,
+    const timer = useSelector(selectTimer)
+    const dispatch = useDispatch()
+    const button = useRef()
 
-        /**
-         *  Время в секундах до осуществления действия
-         */
-        timeout: PropTypes.number,
-
-        /**
-         * Размер кнопки. 
-         */
-        size: PropTypes.oneOf(['small', 'medium']),
-
-        /**
-         * Цвет кнопки (как в css)
-         */
-        color: PropTypes.string,
-
-        /**
-         * Активна ли кнопка?
-         */
-        disabled: PropTypes.bool,
-
-        /** 
-         * Добавочные css классы к кнопке <br/>
-         * Желательно использовать классы Tailwind Css
-         * @example className = "col-span-2 row-span-1" 
-         * растянет кнопку внутри сетки (CSS) на 1 ряд и 2 колонки 
-         * @example className = "bg-blue-lighter hover:bg-red"
-         * сделает кнопку синей, а при наведении на неё мышкой - красной 
-         */
-        className: PropTypes.string,
+    if (timer === -1)  {
+        button.current.click?.()
+        dispatch(_unsetTimer())
     }
 
-    static defaultProps = {
-        onClick: ((e) => {
-            e.preventDefault(); 
-            this.setState({timer: this.props.timeout},
-                 this.onTimerTick.call(this))}
-        ).bind(this),
-        timeout: undefined,
-        size: 'medium',
-    }
-
-    constructor(props) {
-        super(props);
-        this.state = {timer: props.timeout}
-    }
-
-    componentDidMount() {
-        if (this.timeout)
-            clearTimeout(this.timeout)
-        if (this.state.timer)
-            this.onTimerTick.call(this);
-    }
-
-    onTimerTick() {
-        if (this.state.timer <= 0) {
-            this.btn?.click?.();
+    useEffect(() => {
+        // Запускаем наш таймер, если таковой не имеется
+        if (timeout) {
+            dispatch(setTimer(timeout))
         }
-        else {
-            this.timeout = setTimeout(() => {
-                this.setState({timer: this.state.timer - 1},
-                    this.onTimerTick.call(this));
-            }, 1000)
-        }
-    }
+    }, [timeout]);
 
-    render() {
-        const size = sizes[this.props.size]
+    const currentSize = sizes[size]
 
-        return (
-        <button 
-            disabled={this.props.disabled}
-            className={`flex bg-red justify-items-stretch font-semibold shadow-md ${size.height} ${size.text} text-white ${this.props.className}  disabled:opacity-75`}
-            onClick={this.props.onClick}
-            ref={node => (this.btn = node)}>
-            <div className={`w-full h-full shrink flex items-center justify-self-center justify-center text-center ${size.padding} `}>
-                {this.props.children}
+    return (
+    <button 
+        disabled={disabled}
+        className={`flex justify-items-stretch font-semibold shadow-md ${currentSize.height} ${currentSize.text} text-white ${className}  disabled:opacity-75`}
+        onClick={onClick}
+        ref={button}>
+        <div className={`w-full h-full shrink flex items-center justify-self-center justify-center text-center ${currentSize.padding} `}>
+            {children}
+        </div>
+        {
+            timeout ?
+            <div className={`justify-self-end flex-shrink-0 flex items-center ${currentSize.height} justify-center items-center font-black`}>
+                <span className={`border-l-2 ${currentSize.width} border-white`}>
+                {timer}
+                </span>
             </div>
-            {
-                this.props.timeout ?
-                <div className={`justify-self-end flex-shrink-0 flex items-center ${size.height} justify-center items-center font-black`}>
-                    <span className={`border-l-2 ${size.width} border-white`}>
-                    {this.state.timer}
-                    </span>
-                </div>
-                : null
-            }
-        </button>
-        )
-    }
+            : null
+        }
+    </button>
+    )
+}
+
+Button.propTypes = {
+    /**
+     *  Действие при нажатии кнопки либо по истечении времени
+     */
+    onClick: PropTypes.func,
+
+    /**
+     *  Время в секундах до осуществления действия
+     */
+    timeout: PropTypes.number,
+
+    /**
+     * Размер кнопки. 
+     */
+    size: PropTypes.oneOf(['small', 'medium']),
+
+    /**
+     * Цвет кнопки (как в css)
+     */
+    color: PropTypes.string,
+
+    /**
+     * Активна ли кнопка?
+     */
+    disabled: PropTypes.bool,
+
+    /** 
+     * Добавочные css классы к кнопке <br/>
+     * Желательно использовать классы Tailwind Css
+     * @example className = "col-span-2 row-span-1" 
+     * растянет кнопку внутри сетки (CSS) на 1 ряд и 2 колонки 
+     * @example className = "bg-blue-lighter hover:bg-red"
+     * сделает кнопку синей, а при наведении на неё мышкой - красной 
+     */
+    className: PropTypes.string,
+}
+
+Button.defaultProps = {
+    timeout: undefined,
+    size: 'medium',
+    className: "bg-red"
 }

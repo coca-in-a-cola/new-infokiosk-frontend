@@ -35,5 +35,5 @@ Timeout.args = {
   children: 'Кнопка с обратным отсчётом',
   size: "small",
   timeout: 30,
-  className: "",
+  onClick: () => {alert("Нажата кнопка!")}
 };
