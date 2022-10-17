@@ -18,7 +18,7 @@ import { FormTask } from "./FormTask"
 import { AskLogin } from "./AskLogin"
 
 
-export const Modals = ({form_uuid, navigate}) => {
+export const Modals = ({form_uuid, location, navigate}) => {
     /* 
         Все модальные окна авторизации и отправки форм
     */
@@ -42,8 +42,16 @@ export const Modals = ({form_uuid, navigate}) => {
 
     const dispatch = useDispatch();
 
+    // Немного костылей для веселья
     if (form_uuid && !modalShown) {
         dispatch(showModal())
+    }
+
+    if (stage !== Stage.SUCCESS && 
+        (location === "services" || location === "/services")
+        && !modalShown) {
+        navigate("/")
+        dispatch(startLogin())
     }
     
     const getFormByStage = () => {
@@ -71,7 +79,7 @@ export const Modals = ({form_uuid, navigate}) => {
 
                     return error ? null : <FormTask
                     onSubmit={(data) => {dispatch(submitFormData(data)); navigate('/')}}
-                    onCancel={() => navigate("/")}
+                    onCancel={() => {dispatch(hideModal()); navigate(-1)}}
                     {...formData}
                     />
             }
@@ -117,7 +125,10 @@ export const Modals = ({form_uuid, navigate}) => {
         {
             error ?
                 <SuccessOrFailReport fail 
-                label={error.error || error.label}
+                label={typeof error === 'string' || error instanceof String ? error
+                : typeof error.label === 'string' || error.label instanceof String ? error.label
+                : typeof error.error === 'string' || error.error instanceof String ? error.error
+                : null}
                 text={error.text}
                 large={reportLarge} />
             : success ?
@@ -129,10 +140,10 @@ export const Modals = ({form_uuid, navigate}) => {
         }
         {
             reportLarge ?
-            <div className="flex justify-between w-full max-w-5xl mx-auto">
-                <Button className="w-80" onClick={() => dispatch(logout())} timeout={30}>ВЫХОД</Button>
-                <Button className="w-80 bg-blue-darker" onClick={() => dispatch(hideModal())}>
-                    ПРОДОЛЖИТЬ КАК {userName?.split(' ')[0]}
+            <div className="flex justify-between w-screen max-w-5xl mx-auto">
+                <Button className="w-96 bg-red" onClick={() => dispatch(logout())} timeout={30}>ВЫХОД</Button>
+                <Button className="w-96 bg-blue-darker" onClick={() => dispatch(hideModal())}>
+                    ПРОДОЛЖИТЬ КАК {userName?.split(' ')[1].toUpperCase()}
                 </Button>
             </div>
             : undefined

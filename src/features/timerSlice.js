@@ -10,6 +10,7 @@ const initialState = {
 }
 
 let timeout = undefined
+let callbackFunction = undefined
 export const timerSlice = createSlice({
     name: 'timer',
     initialState,
@@ -27,6 +28,7 @@ export const timerSlice = createSlice({
 
         _unsetTimer: (state, action) => {
             Object.assign(state, initialState)
+            callbackFunction = undefined
         },
 
         _tickTimer: (state, action) => {
@@ -40,7 +42,8 @@ export const { _setTimer, _unsetTimer, _tickTimer, refreshTimer } = timerSlice.a
 const selectSelf = (state) => state.timer
 export const selectTimer = createDraftSafeSelector(selectSelf, (state) => {console.log(state); return state.timer})
 
-export const setTimer = (timer) => (dispatch, getState) => {
+export const setTimer = (callbackFn, timer) => (dispatch, getState) => {
+    callbackFunction = callbackFn
     dispatch(_setTimer(timer))
     dispatch(timerTick())
 }
@@ -48,11 +51,15 @@ export const setTimer = (timer) => (dispatch, getState) => {
 const timerTick = () => (dispatch, getState) => {
     const timer = selectTimer(getState())
 
-    if (timer >= 0) {
+    if (timer > 0) {
         dispatch(_tickTimer())
 
         // Вот это говнокод
         timeout = setTimeout(() => dispatch(timerTick()), 1000)
+    }
+    else if (timer === 0) {
+        callbackFunction?.()
+        dispatch(_unsetTimer())
     }
 }
 

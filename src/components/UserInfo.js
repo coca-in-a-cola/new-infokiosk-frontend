@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 /* 
     Информация о пользователе
 */
-export const UserInfo = ({short}) => {
+export const UserInfo = ({short, navigate}) => {
 
     const userName = useSelector(selectUserName)
     const dispatch = useDispatch();
@@ -15,7 +15,7 @@ export const UserInfo = ({short}) => {
         ВОЙТИ КАК СОТРУДНИК
         </Button>
     
-    return <StaticUserInfo userName={userName} onClick={() => dispatch(logout())} short={short}/>
+    return <StaticUserInfo userName={userName} onClick={() => {dispatch(logout()); navigate?.("/")}} short={short}/>
 }
 
 export const StaticUserInfo = ({userName, onClick = () => {}, short}) => {

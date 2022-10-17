@@ -78,7 +78,7 @@ export class ReadCard extends React.Component {
                 </input>
                 
                 <div className='absolute top-2 right-2'>
-                    <CloseButton onClick={this.props.onCancel}></CloseButton>
+                    <CloseButton onClick={this.props.onCancel} timeout={90}></CloseButton>
                 </div>
             </form>
             </div>

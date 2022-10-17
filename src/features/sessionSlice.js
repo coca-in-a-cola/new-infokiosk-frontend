@@ -139,6 +139,7 @@ export const sumbitConfirmNumber = (confirmNumber) => (dispatch, getState) => {
     })
     .catch(error => {
         dispatch(setError(error))
+        dispatch(showModal())
     })
 }
 

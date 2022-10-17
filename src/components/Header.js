@@ -43,7 +43,7 @@ export const Header = ({ navigate }) => {
         </div>
 
         <div className="col-span-1 flex justify-end mt-8">
-            <UserInfo/>
+            <UserInfo navigate={navigate} />
         </div>
     </header>
     )

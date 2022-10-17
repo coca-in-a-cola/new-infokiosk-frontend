@@ -40,6 +40,11 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
     
     const onChangeInput = event => {
         const inputVal = event.target.value;
+        const type = event.target.type;
+
+        // Обработка поля с вводом номера
+        type === "number" ? setLayoutName("number") : setLayoutName("default")
+        
         setInputs({
             ...inputs,
             [inputName]: inputVal
@@ -126,7 +131,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
                         onChange={onChangeInput}
                         className="w-full border-solid bg-gray-200 h-20 shadow appearance-none rounded py-2 px-8
                         text-black text-4xl font-black leading-tight tracking-widest focus:outline-none focus:shadow-outline"
-                        type="text"
+                        type={field.type || "text"}
                         required={field.required}
                         />
                         </div>
@@ -174,6 +179,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
                 "{shift} | \u042f \u0427 \u0421 \u041c \u0418 \u0422 \u042c \u0411 \u042e , {shift}",
                 ", {space} @",
             ],
+            number: ['7 8 9', '4 5 6', '1 2 3', '. 0 {bksp}'],
         }}
         onChangeAll={onChangeAll}
         onKeyPress={onKeyPress}

@@ -43,8 +43,8 @@ export const SuccessOrFailReport = ({fail, large, label, text, }) => {
     {   
         large ?
         <div className="flex justify-between w-full max-w-5xl mx-auto">
-            <Button className="w-80" onClick={() => dispatch(logout())} timeout={30}>ВЫХОД</Button>
-            <Button className="w-80 bg-blue-darker" onClick={() => dispatch(hideModal())}>
+            <Button className="w-96 bg-red" onClick={() => dispatch(logout())} timeout={30}>ВЫХОД</Button>
+            <Button className="w-96 bg-blue-darker" onClick={() => dispatch(hideModal())}>
                 ПРОДОЛЖИТЬ КАК {userName?.split(' ')?.[1].toUpperCase()}
             </Button>
         </div>

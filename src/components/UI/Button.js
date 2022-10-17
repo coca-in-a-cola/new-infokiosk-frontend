@@ -28,15 +28,10 @@ export const Button = ({children, onClick, disabled, timeout, size, className}) 
     const dispatch = useDispatch()
     const button = useRef()
 
-    if (timer === -1)  {
-        button.current.click?.()
-        dispatch(_unsetTimer())
-    }
-
     useEffect(() => {
         // Запускаем наш таймер, если таковой не имеется
         if (timeout) {
-            dispatch(setTimer(timeout))
+            dispatch(setTimer(() => {button.current.click?.()}, timeout))
         }
     }, [timeout]);
 

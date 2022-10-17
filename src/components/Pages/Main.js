@@ -25,7 +25,7 @@ export const Main = ({location, navigate, form_uuid}) => {
             </div>
         }
         </div>
-        <Modals form_uuid={form_uuid} navigate={navigate} />
+        <Modals form_uuid={form_uuid} location={location} navigate={navigate} />
         </TimerHandler>
     )
 }
