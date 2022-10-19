@@ -24,20 +24,20 @@ WithFields.args = {
       {
         name: "Date",
         label: "Год",
-        type: "number",
+        type: "numeric",
         required: true
       },
       {
         name: "For",
         label: "Место требования",
-        type: "number",
+        type: "text",
         placeholder: "Военкомат",
         required: true
       },
       {
         name: "Comment",
         label: "Дополнительная информация (комментарий)",
-        type: "number",
+        type: "text",
         required: false
       },
     ],

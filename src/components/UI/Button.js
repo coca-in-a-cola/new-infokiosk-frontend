@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect, useState, useRef } from "react";
 import PropTypes from 'prop-types'
-import { selectTimer, setTimer, _unsetTimer } from '../../features/timerSlice';
+import { selectTimer, selectIsActivated, setTimer, _unsetTimer, _setActivated } from '../../features/timerSlice';
 import { useSelector, useDispatch } from "react-redux"
 
 const sizes = {
@@ -27,11 +27,20 @@ export const Button = ({children, onClick, disabled, timeout, size, className}) 
     const timer = useSelector(selectTimer)
     const dispatch = useDispatch()
     const button = useRef()
+    const isActivated = useSelector(selectIsActivated)
+    
+    const setupTimeout = () => {
+        dispatch(setTimer(() => {button.current.click?.()}, timeout))
+    }
+    
+    if (isActivated && timeout) {
+        setupTimeout()
+    }
 
     useEffect(() => {
         // Запускаем наш таймер, если таковой не имеется
         if (timeout) {
-            dispatch(setTimer(() => {button.current.click?.()}, timeout))
+            setupTimeout()
         }
     }, [timeout]);
 

@@ -3,6 +3,7 @@ import { createSlice, createSelector, createDraftSafeSelector } from "@reduxjs/t
 const initialState = {
     timer: undefined,
     timeout: undefined,
+    isActivated: false
     /*
     TODO: хранить данные о последней сущности, которая вызвала таймаут,
     либо о последней функции, которую нужно использовать
@@ -18,6 +19,7 @@ export const timerSlice = createSlice({
         _setTimer: (state, {payload}) => {
             state.timer = payload
             state.timeout = payload
+            state.isActivated = false
             // Нужно удалять старый таймаут при создании нового
             clearTimeout(timeout)
         },
@@ -33,14 +35,19 @@ export const timerSlice = createSlice({
 
         _tickTimer: (state, action) => {
             state.timer -= 1
+        },
+
+        _setActivated: (state, action) => {
+            state.isActivated = action.payload
         }
     }
 })
 
-export const { _setTimer, _unsetTimer, _tickTimer, refreshTimer } = timerSlice.actions
+export const { _setTimer, _unsetTimer, _tickTimer, _setActivated, refreshTimer } = timerSlice.actions
 
 const selectSelf = (state) => state.timer
-export const selectTimer = createDraftSafeSelector(selectSelf, (state) => {console.log(state); return state.timer})
+export const selectTimer = createDraftSafeSelector(selectSelf, (state) => {return state.timer})
+export const selectIsActivated = createDraftSafeSelector(selectSelf, (state) => {return state.isActivated})
 
 export const setTimer = (callbackFn, timer) => (dispatch, getState) => {
     callbackFunction = callbackFn
@@ -60,6 +67,7 @@ const timerTick = () => (dispatch, getState) => {
     else if (timer === 0) {
         callbackFunction?.()
         dispatch(_unsetTimer())
+        setTimeout(() => dispatch(_setActivated(true)), 2000)
     }
 }
 

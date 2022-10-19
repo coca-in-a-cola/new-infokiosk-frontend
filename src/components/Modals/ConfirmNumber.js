@@ -56,9 +56,9 @@ export const ConfirmNumber = ({displayPhoneNumber = "+70000000000", maxLength = 
                 Введите код подтверждения
             </h1>
             <p className="text-2xl pt-2 max-w-4xl mx-auto text-gray-500">
-                Мы выслали на номер {format(displayPhoneNumber)} код подтверждения
+                Код подтверждения отправлен на номер {format(displayPhoneNumber)}
                 <br/>
-                Введите его в поле ниже, чтобы войти
+                Введите его в поле ниже
             </p>
             <div className="mb-8 mt-2">
 

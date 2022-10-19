@@ -44,7 +44,7 @@ export class FlatMenu extends React.Component {
             ? <Modal center>
                 <SuccessOrFailReport fail label={this.state.error} />
             </Modal>
-            : <div className="relative flex flex-wrap-reverse shrink py-4 mx-auto w-full items-center justify-start max-w-screen-2xl">
+            : <div className="flex flex-wrap-reverse shrink py-4 mx-auto w-full items-center justify-start max-w-screen-2xl">
             {
             this.state.buttons.map((button, index) => 
                 <div className="basis-1/3 border-transparent border-8">
@@ -63,7 +63,7 @@ export class FlatMenu extends React.Component {
             {
 
                 this.state.goBack ?
-                    <div className="absolute top-1/2 left-0 -translate-x-full -translate-y-1/2">
+                    <div className="absolute top-80 left-0">
                     <ArrowButton left color={this.state.color} onClick={() => this.props.navigate(-1)}/>
                     </div>
                 : null

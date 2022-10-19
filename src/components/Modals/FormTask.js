@@ -7,6 +7,9 @@ import PropTypes from 'prop-types'
 import { FlatButton } from '../UI/FlatButton'
 import { UserInfo } from '../UserInfo';
 
+const newlineText = (text) =>
+    <>{text.split('\n').map(line => <>{line} <br/></>)}</>
+
 export const FormTask = ({title, fields, onSubmit, onCancel}) => {
     const [inputs, setInputs] = useState("");
     const [inputName, setInputName] = useState("default");
@@ -37,13 +40,26 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
             handleShift();
 
     }
+
+    const onFieldFocus = event => {
+        
+        setInputName(event.target.id)
+        console.log(event.target)
+
+        // Вот это костыль
+        const type = event.target.name;
+
+        if (type === "numeric") {
+            setLayoutName(type)
+            console.log(type)
+        }
+        else {
+            setLayoutName("default")
+        }
+    }
     
     const onChangeInput = event => {
         const inputVal = event.target.value;
-        const type = event.target.type;
-
-        // Обработка поля с вводом номера
-        type === "number" ? setLayoutName("number") : setLayoutName("default")
         
         setInputs({
             ...inputs,
@@ -68,8 +84,8 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
     };
 
     const sendButtonDisabled = () => {
-        return fields ? !(fields.filter(field => field.required).every(field => inputs[field.name])) : false
-    }    
+        return fields && fields.length ? !(fields.filter(field => field.required).every(field => inputs[field.name])) : false
+    }
 
     return (
         <div className="absolute top-0 left-0 right-0 bottom-0 bg-white">
@@ -77,7 +93,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
         + "before:block before:-z-10 before:absolute before:left-0 before:top-14 before:w-60 before:h-24 before:bg-blue-darker "
         + "after:block after:-z-10 after:absolute after:right-0 after:top-14 after:w-28 after:h-24 after:bg-blue-darker"}>
         
-        <form className="mt-4 left-0 right-0 px-8 py-4 mb-4 flex">
+        <form className="mt-4 left-0 right-0 px-8 py-4 mb-4 flex z-10">
             <div className="w-full max-w-screen-sm relative">
             <h2 className="text-5xl pt-12 pb-4 mx-auto text-blue-darker font-black">
                 {title}
@@ -86,7 +102,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
                 <UserInfo short/>
             </div>
             {
-                fields ?
+                fields && fields.length ?
                 <p className="text-2xl pt-2 max-w-4xl mx-auto text-gray-500">
                     Для отправки данной формы необходимо ввести дополнительную информацию
                 </p>
@@ -97,7 +113,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
             </p>
 
             {
-                fields ?
+                fields && fields.length ?
                 <p className="text-2xl pt-2 max-w-4xl mx-auto text-gray-500">
                     <span className="text-red pr-4">*</span>
                     обязательно для заполнения
@@ -116,22 +132,21 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
                             {
                                 field.required 
                                 ? <>
-                                    <span className="text-red">*</span> {field.label}
+                                    <span className="text-red">*</span> {field.label ? newlineText(field.label) : undefined}
                                 </>
-                                : field.label
+                                : field.label ? newlineText(field.label) : undefined
                             }
                         </label>
                         <input
                         id={field.name}
                         value={getInputValue(field.name)}
                         placeholder={field.placeholder}
-                        onFocus={() => {
-                            setInputName(field.name)
-                        }}
+                        onFocus={onFieldFocus}
                         onChange={onChangeInput}
                         className="w-full border-solid bg-gray-200 h-20 shadow appearance-none rounded py-2 px-8
                         text-black text-4xl font-black leading-tight tracking-widest focus:outline-none focus:shadow-outline"
-                        type={field.type || "text"}
+                        type="text"
+                        name={field.type}
                         required={field.required}
                         />
                         </div>
@@ -158,7 +173,8 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
                     </div>
                 </div>
             </div>
-        
+        {
+        fields && fields.length ?
         <Keyboard
         inputName={inputName}
         keyboardRef={r => (keyboard.current = r)}
@@ -179,7 +195,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
                 "{shift} | \u042f \u0427 \u0421 \u041c \u0418 \u0422 \u042c \u0411 \u042e , {shift}",
                 ", {space} @",
             ],
-            number: ['7 8 9', '4 5 6', '1 2 3', '. 0 {bksp}'],
+            numeric: ['7 8 9', '4 5 6', '1 2 3', '+ 0 -', '. {bksp}'],
         }}
         onChangeAll={onChangeAll}
         onKeyPress={onKeyPress}
@@ -205,6 +221,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel}) => {
             }}
     
         />
+        : undefined}
         </div>
         </div>
     );

@@ -50,8 +50,8 @@ export const Modals = ({form_uuid, location, navigate}) => {
     if (stage !== Stage.SUCCESS && 
         (location === "services" || location === "/services")
         && !modalShown) {
-        navigate("/")
         dispatch(startLogin())
+        setTimeout(() => navigate("/"), 1000)
     }
     
     const getFormByStage = () => {
@@ -79,7 +79,7 @@ export const Modals = ({form_uuid, location, navigate}) => {
 
                     return error ? null : <FormTask
                     onSubmit={(data) => {dispatch(submitFormData(data)); navigate('/')}}
-                    onCancel={() => {dispatch(hideModal()); navigate(-1)}}
+                    onCancel={() => {dispatch(logout()); navigate("/");}}
                     {...formData}
                     />
             }
@@ -106,7 +106,13 @@ export const Modals = ({form_uuid, location, navigate}) => {
                     onCancel={() => dispatch(logout())}/>
             
             default:
-                return <></>
+                return <>
+                    {
+                        !error && !success && !reportLarge ?
+                        dispatch(hideModal())
+                        : undefined
+                    }
+                </>
         }
     }
 

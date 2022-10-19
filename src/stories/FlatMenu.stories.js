@@ -19,6 +19,5 @@ Main.args = {
 export const Services = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Services.args = {
-    path: "services",
-
+  path: "/services",
 };
