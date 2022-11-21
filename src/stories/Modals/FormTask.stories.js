@@ -44,3 +44,31 @@ WithFields.args = {
     onSubmit: (data) => alert("Получили данные " + JSON.stringify(data)),
     onCancel: () => alert("Пользователь отменил ввод")
 };
+
+export const ArrayFields = Template.bind({});
+ArrayFields.args = {
+  fields: [
+    {
+      name: "Dates",
+      label: "Даты",
+      onClick: "введите описание дат",
+      type: "array.numeric",
+      required: true
+    },
+    {
+      name: "Positions",
+      label: "Занимаемые должности",
+      type: "array",
+      placeholder: "Название должности",
+      required: true
+    },
+    {
+      name: "Comment",
+      label: "Дополнительная информация (комментарий)",
+      type: "text",
+      required: false
+    },
+  ],
+  onSubmit: (data) => alert("Получили данные " + JSON.stringify(data)),
+  onCancel: () => alert("Пользователь отменил ввод")
+};

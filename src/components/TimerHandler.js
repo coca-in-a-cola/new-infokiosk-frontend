@@ -17,7 +17,7 @@ export const TimerHandler = ({children}) => {
     },[]);
 
 
-    return <div className='min-w-screen min-h-screen'>
+    return <div className='w-full min-w-80 min-h-80 h-full'>
         {children}
     </div>
 }

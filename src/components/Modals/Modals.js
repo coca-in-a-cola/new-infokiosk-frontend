@@ -79,7 +79,8 @@ export const Modals = ({form_uuid, location, navigate}) => {
 
                     return error ? null : <FormTask
                     onSubmit={(data) => {dispatch(submitFormData(data)); navigate('/')}}
-                    onCancel={() => {dispatch(logout()); navigate("/");}}
+                    onCancel={() => {dispatch(hideModal()); navigate(-1); }}
+                    onTimeout={() => {navigate("/"); setTimeout(() => dispatch(logout()), 1500)}}
                     {...formData}
                     />
             }
@@ -97,12 +98,12 @@ export const Modals = ({form_uuid, location, navigate}) => {
                     displayPhoneNumber={userPhoneNumber}
                     maxLength={5}
                     timeout={90}
-                    onSubmit={(confirmNumber) => {dispatch(sumbitConfirmNumber(confirmNumber)); dispatch(hideModal())}}
+                    onSubmit={(confirmNumber) => {dispatch(sumbitConfirmNumber(confirmNumber));}}
                     onCancel={() => dispatch(logout())}
                     onRetry={() => dispatch(submitCardCode(previousCardCode))}/>
             case Stage.READ_CARD:
                 return <ReadCard
-                    onSubmit={(ssid) => dispatch(submitCardCode(ssid))}
+                    onSubmit={(ssid) => dispatch(submitCardCode(ssid, navigate))}
                     onCancel={() => dispatch(logout())}/>
             
             default:

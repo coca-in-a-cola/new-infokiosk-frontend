@@ -22,15 +22,16 @@ const sizes = {
 }
 
 
-export const Button = ({children, onClick, disabled, timeout, size, className}) => {
+export const Button = ({children, onClick, disabled, timeout, onTimeout, size, className}) => {
     
     const timer = useSelector(selectTimer)
     const dispatch = useDispatch()
     const button = useRef()
     const isActivated = useSelector(selectIsActivated)
-    
+
     const setupTimeout = () => {
-        dispatch(setTimer(() => {button.current.click?.()}, timeout))
+        const action = onTimeout ? onTimeout : onClick
+        dispatch(setTimer(() => {action?.()}, timeout))
     }
     
     if (isActivated && timeout) {
@@ -78,6 +79,12 @@ Button.propTypes = {
      *  Время в секундах до осуществления действия
      */
     timeout: PropTypes.number,
+
+    /**
+     *  Иногда мы хотим делать разные действия при нажатии и истечении времени
+     *  По умолчанию onTimeout = onClick
+     */
+    onTimeout: PropTypes.func,
 
     /**
      * Размер кнопки. 

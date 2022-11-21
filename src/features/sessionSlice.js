@@ -119,11 +119,14 @@ export const { logout, setLoading, setError, showModal, hideModal,
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched
-export const submitCardCode = (ssid) => (dispatch) => {
+
+// Передавайте в этот thunk параметр navigate, только если хотите перенаправить на /services
+export const submitCardCode = (ssid, navigate) => (dispatch) => {
     dispatch(setLoading(true))
     
     sendCardCode(ssid).then(result => {
         dispatch(setCardCode({ssid: ssid, ...result}))
+        navigate?.('/services')
     })
     .catch(error => {
         dispatch(setError(error))
@@ -136,6 +139,7 @@ export const sumbitConfirmNumber = (confirmNumber) => (dispatch, getState) => {
 
     sendConfirmNumber(authToken, confirmNumber).then(result => {
         dispatch(setConfirmNumber(result))
+        dispatch(hideModal())
     })
     .catch(error => {
         dispatch(setError(error))
@@ -171,6 +175,7 @@ export const fetchFormData = (uuid) => (dispatch, getState) => {
 }
 
 
+export const selectUser = (state) => state.session.session
 export const selectUserName = (state) => state.session.session?.fullname
 export const selectUserPhoneNumber = (state) => state.session.session?.phoneNumber
 export const selectAuthToken = (state) => state.session.session?.authToken;
