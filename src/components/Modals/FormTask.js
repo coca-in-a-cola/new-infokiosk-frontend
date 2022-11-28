@@ -13,7 +13,7 @@ const newlineText = (text) =>
 
 export const FormTask = ({title, fields, onSubmit, onCancel, onTimeout}) => {
   const [inputs, setInputs] = useState("");
-  const [inputName, setInputName] = useState("default");
+  const [inputName, setInputName] = useState(undefined);
   const [layoutName, setLayoutName] = useState("default");
   
   const keyboard = useRef();
@@ -213,7 +213,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel, onTimeout}) => {
     </div>
     </div>
     {
-      fields && fields.length ?
+      fields && fields.length && inputName ?
       <Keyboard
       inputName={inputName}
       keyboardRef={r => (keyboard.current = r)}

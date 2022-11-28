@@ -13,8 +13,8 @@ export const Header = ({ navigate }) => {
         { /* Логотип RMRail инфокиоск */ }
         <button className = "h-30 max-w-xl" onClick={() => navigate('/')}>
             <div className = "flex justify-center items-center">
-                <div className=''>
-                <img src={logo} alt='логотип'/>
+                <div className='relative after:block after:absolute after:top-0 after:left-0 after:bottom-0 after:right-0'>
+                <img src={logo} alt='логотип' className='-z-10'/>
                 </div>
             </div>
         </button>
@@ -24,7 +24,7 @@ export const Header = ({ navigate }) => {
             <div className="flex justify-center">
             {
                 [qrVK, qrTG, qr].map(qr => <div
-                className="shrink w-28">
+                className="shrink w-28 relative after:block after:absolute after:top-0 after:left-0 after:bottom-0 after:right-0">
                     <img src={qr} alt='qr'/>
                     </div>
                 )
