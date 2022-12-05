@@ -41,7 +41,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel, onTimeout}) => {
   }
   
   const onFieldFocus = event => {
-    
+    event.stopPropagation();
     setInputName(event.target.id)
     console.log(event.target)
     
@@ -100,12 +100,22 @@ export const FormTask = ({title, fields, onSubmit, onCancel, onTimeout}) => {
   }
   
   return (
-    <div className="absolute top-0 left-0 right-0 bottom-0 bg-white">
+    <div className="absolute top-0 left-0 right-0 bottom-0 bg-white flex flex-col h-screen">
+    { /* FLEX CONTAINER END */}
+
+    { /* FLEX COLUMN START */}
+    <div className="shrink grow w-full basis-0 h-auto overflow-auto">
     <div class={"max-w-screen-2xl mx-auto "
-    + "before:block before:-z-10 before:absolute before:left-0 before:top-14 before:w-60 before:h-24 before:bg-blue-darker "
-    + "after:block after:-z-10 after:absolute after:right-0 after:top-14 after:w-28 after:h-24 after:bg-blue-darker"}>
+      + "before:block before:z-10 before:absolute before:left-0 before:top-14"
+      + " before:w-full before:h-24 before:bg-blue-darker"}>
     
-    <form className="mt-4 left-0 right-0 px-8 py-4 mb-4 flex z-10">
+    <form className="relative mt-4 left-0 right-0 py-4 mb-4 px-8 bg-white z-20 flex"
+    onClick={(e) => {
+      var elementType = e.target.nodeName
+      if (elementType !== 'TEXTAREA' && elementType !== 'INPUT') {
+        setInputName(undefined)
+      }
+    }}>
     <div className="w-full max-w-screen-sm relative">
     <h2 className="text-5xl pt-12 pb-4 mx-auto text-blue-darker font-black">
     {title}
@@ -134,7 +144,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel, onTimeout}) => {
     }
     </div>
     
-    <div className="mt-12 grow px-8 overflow-y-auto max-h-96">
+    <div className="mt-12 shrink grow px-8 overflow-auto">
     {
       fields?.map(field => {
         const types = new Set(field.type.split("."));
@@ -195,10 +205,12 @@ export const FormTask = ({title, fields, onSubmit, onCancel, onTimeout}) => {
     </div>
     </form>
     </div>
-    
-    <div className="absolute bottom-0 left-0 right-0">
-    <div className="max-w-screen-2xl mx-auto ">
-    <div className="px-8 py-4 flex justify-between items-end">
+    </div>
+    { /* FLEX COLUMN END */}
+
+    { /* FLEX COLUMN START */}
+    <div className="w-screen max-w-screen-2xl mx-auto ">
+    <div className="flex justify-between items-end px-8">
     <div className="w-full max-w-screen-sm">
       <Button className="w-80 my-4 bg-red" timeout={80} onClick={onCancel} onTimeout={onTimeout}>ОТМЕНА</Button>
     </div>
@@ -212,6 +224,10 @@ export const FormTask = ({title, fields, onSubmit, onCancel, onTimeout}) => {
     </div>
     </div>
     </div>
+    { /* FLEX COLUMN END */}
+
+    { /* FLEX COLUMN START */}
+    <div className="">
     {
       fields && fields.length && inputName ?
       <Keyboard
@@ -262,6 +278,7 @@ export const FormTask = ({title, fields, onSubmit, onCancel, onTimeout}) => {
       />
       : undefined}
       </div>
+      { /* FLEX COLUMN END */}
       </div>
       );
     }

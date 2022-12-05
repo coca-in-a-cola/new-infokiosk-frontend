@@ -5,7 +5,7 @@ export const Modal = ({children, center}) => {
     <div className="fixed top-0 left-0 right-0 bottom-0 select-none bg-black bg-opacity-75">
         {
             center ?
-            <div class="grid min-h-screen win-w-screen place-content-center">
+            <div class="w-full h-full place-content-center">
                 {children}
             </div>
             : children
