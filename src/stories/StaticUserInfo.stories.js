@@ -15,3 +15,10 @@ export const Default = Template.bind({});
 Default.args = {
   userName: 'Иван Иванов',
 };
+
+export const White = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+White.args = {
+  userName: 'Иван Иванов',
+  textClassName: 'text-white',
+};

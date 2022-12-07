@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 /* 
     Информация о пользователе
 */
-export const UserInfo = ({short, navigate}) => {
+export const UserInfo = ({short, navigate, textClassName = "text-blue-darker"}) => {
 
     const userName = useSelector(selectUserName)
     const dispatch = useDispatch();
@@ -15,10 +15,10 @@ export const UserInfo = ({short, navigate}) => {
         ВОЙТИ КАК СОТРУДНИК
         </Button>
     
-    return <StaticUserInfo userName={userName} onClick={() => {dispatch(logout()); navigate?.("/")}} short={short}/>
+    return <StaticUserInfo userName={userName} onClick={() => {dispatch(logout()); navigate?.("/")}} short={short} textClassName={textClassName}/>
 }
 
-export const StaticUserInfo = ({userName, onClick = () => {}, short}) => {
+export const StaticUserInfo = ({userName, onClick = () => {}, short, textClassName = "text-blue-darker"}) => {
 
     if (!userName)
         return <></>
@@ -32,7 +32,7 @@ export const StaticUserInfo = ({userName, onClick = () => {}, short}) => {
             </svg>
         </div>
         <div className="flex-grow p-3">
-        <div className="font-semibold text-2xl text-blue-darker">
+        <div className={"font-semibold text-2xl " + (textClassName)}>
             {userName}
         </div>
         {/* <div class="text-sm text-gray-500">
