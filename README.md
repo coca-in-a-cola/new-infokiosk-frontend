@@ -1,6 +1,8 @@
-# Getting Started with Create React App and Redux
+# Fontend Инфокиоска
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+Этот проект сделан при помощи [Create React App](https://github.com/facebook/create-react-app), используя [Redux](https://redux.js.org/) и [Redux Toolkit](https://redux-toolkit.js.org/).
+
+Ниже идёт стандартная документация любого react-redux приложения, ничего особенного поверх не прикручивал.
 
 ## Available Scripts
 
