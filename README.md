@@ -1,8 +1,20 @@
 # Fontend Инфокиоска
+[Ссылка на Backend](https://github.com/coca-in-a-cola/rmr-infokiosk-api)
+
 
 Этот проект сделан при помощи [Create React App](https://github.com/facebook/create-react-app), используя [Redux](https://redux.js.org/) и [Redux Toolkit](https://redux-toolkit.js.org/).
 
-Ниже идёт стандартная документация любого react-redux приложения, ничего особенного поверх не прикручивал.
+
+Деплой:
+ 1. Для установки всех node-модулей, в корне проекта пропишите `npm install`.
+ 2. Для создания билда фронтенда, пропишите `npm run build`
+ 3. Скопируйте файлы из директории, в которую был выполнен билд (обычно build или dist) в папку `spa` бекенда.
+
+
+Дополнительно, компоненты разрабатывались отдельно при помощи [Storybook](https://storybook.js.org/). В Storybook можно посмотреть различные параметры компонентов и их минимальное описание. Для запуска storybook введите `yarn storybook` в корне проекта
+
+
+Ниже идёт стандартная документация любого react-redux приложения, больше ничего особенного поверх не прикручивал.
 
 ## Available Scripts
 
